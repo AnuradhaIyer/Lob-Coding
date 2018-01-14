@@ -32,5 +32,4 @@ localhost:8000/
 
 ![lob1](https://user-images.githubusercontent.com/31361652/34919978-2b3844fa-f920-11e7-9715-de8ef0ed64db.JPG)
 
-![lob](https://user-images.githubusercontent.com/31361652/34919969-04ae6d3c-f920-11e7-95e9-9398361225e7.JPG)
-
+![lob3](https://user-images.githubusercontent.com/31361652/34919979-2e18dc3e-f920-11e7-907e-db9eb92186e8.JPG)
