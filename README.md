@@ -1,4 +1,4 @@
-# Lob-Coding-Test
+# Lob-Coding
 # Instruction and Installation Setup
 * The Package.json file keeps track of the environment by tracking dependencies and other key information.
 
