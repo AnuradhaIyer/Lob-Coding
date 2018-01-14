@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+input[type=text], select, textarea{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+    .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+</style>
+</head>
+<body>
+
+<h2>LOB Letter Form</h2>
+
+<div class="container">
+  <form>
+    <div class="row">
+      <div class="col-25">
+        <label for="fname">Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="fname" class="cls_name" name="Name" placeholder="Your name..">
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-25">
+        <label for="lname">Address Line 1</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="Address" class="cls_add1" name="Address" placeholder="Enter your Address">
+      </div>
+    </div>
+     <div class="row">
+      <div class="col-25">
+        <label for="lname">Address Line 2</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="Address" class="cls_add2" name="Address" placeholder="Enter your Address">
+      </div>
+    </div>
+    <div class="row">
+     <div class="col-25">
+      <label for="City">City</label>
+    </div>
+     <div class="col-75">
+        <input type="text" id="City" name="City" class="cls_city" placeholder="Enter your City">
+      </div>
+
+    </div>
+      <div class="row">
+     <div class="col-25">
+      <label for="State">State</label>
+    </div>
+     <div class="col-75">
+        <input type="text" id="State" name="State" class="cls_state" placeholder="Enter your State">
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="country">Country</label>
+      </div>
+      <div class="col-75">
+        <select id="country" name="country" class="cls_country">
+          <option value="australia">Australia</option>
+          <option value="canada">Canada</option>
+          <option value="US">US</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="zipcode">ZipCode</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="ZipCode" name="ZipCode" class="cls_zipcode" placeholder="Enter ZipCode">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject">Message</label>
+      </div>
+      <div class="col-25">
+        <textarea id="message" name="message" class="cls_msg" placeholder="Enter the message " style="height:100px"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <input type="button" class="cls_submit" value="Submit">
+    </div>
+  </form>
+    <input type="hidden" class="cls_to_name" name="">
+  <input type="hidden" class="cls_to_add1" name="">
+    <input type="hidden" class="cls_to_city" name="">
+      <input type="hidden" class="cls_to_state" name="">
+        <input type="hidden" class="cls_to_zip" name="">
+</div>
+<div class='cls_link_div' style="display: none">
+  <a class="cls_link" href=" "> </a>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $.ajax({
+        url:'https://www.googleapis.com/civicinfo/v2/representatives',
+        type:'get',
+        data:{'address':'320 crescent village unit 1137 San Jose 95134','includeOffices':true,'levels':'country','roles':'legislatorLowerBody','key':'AIzaSyDb6Fcuig96JaPtfm1WzyZ-6RdU3OVGlbo'},
+        //headers: {"Authorization": localStorage.getItem('token')}
+        statusCode: {
+          200: function(data){
+          //  alert(data);
+              $('.cls_to_name').val(data.officials[0].name);
+            $('.cls_to_add1').val(data.officials[0].address[0].line1);
+            $('.cls_to_city').val(data.officials[0].address[0].city);
+            $('.cls_to_state').val(data.officials[0].address[0].state);
+            $('.cls_to_zip').val(data.officials[0].address[0].zip);
+          }
+        }
+      })
+  });
+
+  $('.cls_submit').on('click',function(){
+    data = {'description':'Demo Letter',"to": {
+    "name": $('.cls_to_name').val(),
+    "address_line1": $('.cls_to_add1').val(),
+    "address_line2": '',
+    "address_city": $('.cls_to_city').val(),
+    "address_state": $('.cls_to_state').val(),   //AL
+    "address_zip": $('.cls_to_zip').val(),   //35010
+    "address_country": 'US'
+  },
+  "from": {
+    "name": $('.cls_name').val(),
+    "address_line1": $('.cls_add1').val(),
+    "address_line2": $('.cls_add2').val(),
+    "address_city": $('.cls_city').val(),
+    "address_state": $('.cls_state').val(),
+    "address_zip": $('.cls_zipcode').val(),
+    "address_country": $('.cls_country option:selected').val()
+  },
+  "file": "<html style='padding-top: 3in; margin: .5in;'>"+$('.cls_msg').val()+"</html>",
+  "color":"true"};
+ // data1= JSON.stringify(data)
+    $.ajax({
+      url:'https://api.lob.com/v1/letters',
+      type:'post',
+       headers: {
+    "Authorization": "Basic " + btoa('test_af2c1f37757103afbf8404ba4685c6166bc' + ":" + '')},
+     // username:'test_af2c1f37757103afbf8404ba4685c6166bc',
+      data:data,
+      statusCode:{
+        200:function(data){
+         // alert(data.url)
+         $('.cls_link_div').show();
+         $('.cls_link').attr('href',data.url);
+         $('.cls_link').text(data.url);
+        }
+      }
+    })
+  })
+
+
+</script>
+</body>
+</html>
