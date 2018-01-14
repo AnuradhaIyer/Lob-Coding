@@ -164,11 +164,11 @@ input[type=submit]:hover {
       $.ajax({
         url:'https://www.googleapis.com/civicinfo/v2/representatives',
         type:'get',
-        data:{'address':'320 crescent village unit 1137 San Jose 95134','includeOffices':true,'levels':'country','roles':'legislatorLowerBody','key':'AIzaSyDb6Fcuig96JaPtfm1WzyZ-6RdU3OVGlbo'},
-        //headers: {"Authorization": localStorage.getItem('token')}
+        data:{'address':'320 crescent village unit 1137 San Jose 95134','includeOffices':true,'levels':'country','roles':'legislatorLowerBody','key':''},
+        
         statusCode: {
           200: function(data){
-          //  alert(data);
+          
               $('.cls_to_name').val(data.officials[0].name);
             $('.cls_to_add1').val(data.officials[0].address[0].line1);
             $('.cls_to_city').val(data.officials[0].address[0].city);
@@ -200,13 +200,13 @@ input[type=submit]:hover {
   },
   "file": "<html style='padding-top: 3in; margin: .5in;'>"+$('.cls_msg').val()+"</html>",
   "color":"true"};
- // data1= JSON.stringify(data)
+ 
     $.ajax({
       url:'https://api.lob.com/v1/letters',
       type:'post',
        headers: {
-    "Authorization": "Basic " + btoa('test_af2c1f37757103afbf8404ba4685c6166bc' + ":" + '')},
-     // username:'test_af2c1f37757103afbf8404ba4685c6166bc',
+    "Authorization": "Basic " + btoa('' + ":" + '')},
+    
       data:data,
       statusCode:{
         200:function(data){
